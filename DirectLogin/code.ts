@@ -1,3 +1,4 @@
+// OBP-Figma Copyright (C) 2021 TESOBE GmbH
 
 figma.showUI(__html__, { width: 350, height: 550, title: "OBP Plugin 1" });
 
