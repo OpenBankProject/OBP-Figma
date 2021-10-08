@@ -1,0 +1,188 @@
+<div class="container">
+  <h2>OBP Direct Login & Call Endpoint</h2>
+  <input id="uname" name="uname" type="text" placeholder="Username">
+  <input id="pwd" name="pwd" type="password" placeholder="password">
+  <input id="ckey" name="ckey" type="text" placeholder="consumer key">
+  <br />
+  <button id="login">Login and get token</button>
+  <!--
+  <button id="clear">Reset</button>
+  -->
+  <br />
+  <label>Token: </label>
+  <br />
+  <textarea id="tokenarea" placeholder="No token so far" disabled></textarea>
+  <br />
+
+  <label>Endpoint: </label>
+  <br />
+  <textarea id="endpoint_url" placeholder="Endpoint to call (GET)"></textarea>
+  <br />
+
+
+  <button id="data" disabled>Call Endpoint</button>
+  <br />
+  <label>Fetched Data: </label>
+  <br />
+  <textarea id="fetcheddata" placeholder="No data" disabled></textarea>
+</div>
+<!-- <button id="cancel">Cancel</button> -->
+<style>
+  html{
+    overflow-y: hidden;
+  }
+  .container {
+    padding: 10px 10px;
+    background-color: cadetblue;
+    width: auto;
+    height: 95%;
+  }
+
+  input,
+  textarea,
+  button,
+  #fetcheddata,
+  #tokenarea,
+  #endpoint_url,
+  label,
+  #clear {
+    margin: 5px;
+  }
+
+#endpoint_url {
+  width: 100%;
+}
+
+  #ckey {
+    width: 100%;
+  }
+
+  #tokenarea,
+  #fetcheddata {
+    width: 100%;
+    height: auto;
+  }
+
+  #fetcheddata{
+    height: 90px;
+    overflow-y: scroll;
+  }
+</style>
+<script>
+
+// function setCookie(cname, cvalue, exdays) {
+//   const d = new Date();
+//   d.setTime(d.getTime() + (exdays*24*60*60*1000));
+//   let expires = "expires="+ d.toUTCString();
+//   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+// }
+
+
+  // Onclick get the values in the form fields
+  document.getElementById('login').onclick = () => {
+    const ckey = document.getElementById('ckey').value;
+    const uname = document.getElementById('uname').value;
+    const pwd = document.getElementById('pwd').value;
+
+
+
+    // setCookie("ckey", ckey);
+    // setCookie("uname", uname);
+    
+
+    var request = new XMLHttpRequest()
+
+    request.timeout = 2000;
+
+    // And make a POST request
+
+    var direct_login_url = 'https://apisandbox.openbankproject.com/my/logins/direct'
+
+    request.open('POST', direct_login_url);
+
+    //setCookie("direct_login_url", direct_login_url);
+
+    request.setRequestHeader('Content-Type', 'application/json')
+    //request.setRequestHeader('Authorization', 'DirectLogin username="' + uname + '",password="' + pwd + '", consumer_key=' + ckey)
+    request.setRequestHeader('Authorization', 'DirectLogin username=' + uname + ',password=' + pwd + ', consumer_key=' + ckey)
+    request.responseType = 'json'
+
+    request.ontimeout = function (e) {
+      // If we get a timeout, tell the user.
+      alert("Network or Server Timeout. I could not get a response from the server after " + request.timeout + "ms. The URL I tried was: " + direct_login_url)
+    };
+
+
+    // On loading the request (response) 
+    request.onload = () => {
+      if (request.response.token) {
+        window.parent.postMessage({ pluginMessage: { type: "savetoken", token: request.response.token } }, '*')
+        window.parent.postMessage({ pluginMessage: { type: "fetchtoken" } }, '*')
+      } else {
+        alert("Sorry. I could not call Direct Login successfully. The response code was: " + request.response.code + " The response message was: " + request.response.message)
+      }
+    };
+
+    request.send()
+  }
+
+  window.onmessage = async event => {
+
+    const message = event.data.pluginMessage
+    console.log("Message from Event" + JSON.stringify(message));
+    if (message.type === 'fetchtoken') {
+      const tokenarea = document.getElementById('tokenarea')
+      const data = document.getElementById('data')
+      tokenarea.disabled = false;
+      tokenarea.textContent = message.token
+      data.disabled = false;
+    }
+  }
+
+  document.getElementById('data').onclick = () => {
+    const tokenvalue = document.getElementById('tokenarea').value;
+    var request = new XMLHttpRequest()
+    //request.open('GET', 'https://apisandbox.openbankproject.com/obp/v4.0.0/management/dynamic-entities')
+    //request.open('GET', 'https://apisandbox.openbankproject.com/obp/v4.0.0/root')
+
+    //var endpoint_url = "https://apisandbox.openbankproject.com/obp/v4.0.0/users/current"
+
+    const endpoint_url = document.getElementById('endpoint_url').value;
+
+    request.timeout = 10000;
+
+    request.open('GET', endpoint_url)
+
+    
+
+    //request.open('GET', 'https://apisandbox.openbankproject.com/obp/v4.0.0/root')
+
+    request.setRequestHeader('Authorization', 'DirectLogin token=' + tokenvalue)
+    request.responseType = 'json'
+
+    request.ontimeout = function (e) {
+      // If we get a timeout, tell the user.
+      alert("Network or Server Timeout. I could not get a response from the server after " + request.timeout + "ms. The URL I tried was: " + endpoint_url)
+    };
+
+
+    request.onload = () => {
+      const fetcheddata = document.getElementById('fetcheddata');
+      fetcheddata.disabled = false;
+      fetcheddata.textContent = JSON.stringify(request.response);
+    };
+    request.send()
+  }
+
+  document.getElementById('clear').onclick = () => {
+    const tokenvalue = document.getElementById('tokenarea');
+    const fetcheddata = document.getElementById('fetcheddata');
+    tokenvalue.textContent = null;
+    fetcheddata.textContent = null;
+    fetcheddata.disabled = true;
+    tokenvalue.disabled = true;
+    window.parent.postMessage({ pluginMessage: { type: "clear" } }, '*')
+  }
+
+
+</script>

@@ -1,0 +1,11 @@
+{
+  "name": "DirectLogin",
+  "id": "1017529879908693098",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": [
+    "figma",
+    "figjam"
+  ],
+  "ui": "ui.html"
+}
