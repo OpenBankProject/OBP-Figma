@@ -1,3 +1,3 @@
 # OBP-Figma
 
-Proff of Concept Work in Progress
+Please see [here](https://github.com/OpenBankProject/OBP-Figma/blob/main/DirectLogin/README.md) 
