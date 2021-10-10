@@ -2,15 +2,15 @@
 
 figma.showUI(__html__, { width: 350, height: 550, title: "OBP Plugin 1" });
 
-figma.ui.onmessage = async (msg) => {
+figma.ui.onmessage = async (message) => {
 
 
-  if (msg.type === "savetoken") {
+  if (message.type === "savetoken") {
 
-    console.log("savetoken. Token: " + msg.token);
-    await figma.clientStorage.setAsync('token', msg);
+    console.log("savetoken. Token: " + message.token);
+    await figma.clientStorage.setAsync('token', message);
 
-  } else if (msg.type === "fetchtoken") {
+  } else if (message.type === "fetchtoken") {
 
     console.log("fetchtoken");
     const dataFetched = await figma.clientStorage.getAsync('token');
@@ -21,7 +21,7 @@ figma.ui.onmessage = async (msg) => {
       token: dataFetched.token
     })
 
-  } else if (msg.type === "clear") {
+  } else if (message.type === "clear") {
 
     console.log("clear");
     await figma.clientStorage.setAsync('token', null);

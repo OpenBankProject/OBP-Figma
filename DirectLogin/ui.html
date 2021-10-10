@@ -1,8 +1,8 @@
 <div class="container">
   <h2>OBP Direct Login & Call Endpoint</h2>
-  <input id="uname" name="uname" type="text" placeholder="Username">
-  <input id="pwd" name="pwd" type="password" placeholder="password">
-  <input id="ckey" name="ckey" type="text" placeholder="consumer key">
+  <input id="username" name="username" type="text" placeholder="Username">
+  <input id="password" name="password" type="password" placeholder="password">
+  <input id="consumer_key" name="consumer_key" type="text" placeholder="consumer key">
   <br />
   <button id="login">Login and get token</button>
   <!--
@@ -53,7 +53,7 @@
   width: 100%;
 }
 
-  #ckey {
+  #consumer_key {
     width: 100%;
   }
 
@@ -80,14 +80,14 @@
 
   // Onclick get the values in the form fields
   document.getElementById('login').onclick = () => {
-    const ckey = document.getElementById('ckey').value;
-    const uname = document.getElementById('uname').value;
-    const pwd = document.getElementById('pwd').value;
+    const consumer_key = document.getElementById('consumer_key').value;
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
 
 
-    // setCookie("ckey", ckey);
-    // setCookie("uname", uname);
+    // setCookie("consumer_key", consumer_key);
+    // setCookie("username", username);
     
 
     var request = new XMLHttpRequest()
@@ -103,8 +103,8 @@
     //setCookie("direct_login_url", direct_login_url);
 
     request.setRequestHeader('Content-Type', 'application/json')
-    //request.setRequestHeader('Authorization', 'DirectLogin username="' + uname + '",password="' + pwd + '", consumer_key=' + ckey)
-    request.setRequestHeader('Authorization', 'DirectLogin username=' + uname + ',password=' + pwd + ', consumer_key=' + ckey)
+    //request.setRequestHeader('Authorization', 'DirectLogin username="' + username + '",password="' + password + '", consumer_key=' + consumer_key)
+    request.setRequestHeader('Authorization', 'DirectLogin username=' + username + ',password=' + password + ', consumer_key=' + consumer_key)
     request.responseType = 'json'
 
     request.ontimeout = function (e) {
