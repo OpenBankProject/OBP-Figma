@@ -15,7 +15,7 @@ libraries. You can find the download link here:
 
   https://nodejs.org/en/download/
 
-  ![Official Website for Install Node.js](figma_images/Nodejs.png)
+  ![Official Website for Install Node.js](../figma_images/Nodejs.png)
 
 **Next, install TypeScript using the command:**
 
