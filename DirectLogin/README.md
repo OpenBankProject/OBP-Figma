@@ -15,8 +15,6 @@ libraries. You can find the download link here:
 
   https://nodejs.org/en/download/
 
-  ![Official Website for Install Node.js](../figma_images/Nodejs.png)
-
 **Next, install TypeScript using the command:**
 
   npm install -g typescript
@@ -33,9 +31,6 @@ you previously didn't notice.
 
 For more information, visit https://www.typescriptlang.org/
 
-![Official Website for learnig TypeScript](../figma_images/TypeScript.png)
-
-
 Using TypeScript requires a compiler to convert TypeScript (code.ts) into JavaScript (code.js)
 for the browser to run.
 
@@ -43,14 +38,11 @@ We recommend writing TypeScript code using Visual Studio code:
 
 1. Download Visual Studio Code if you haven't already: https://code.visualstudio.com/.
 
-![Official Website for Install VSCode.js](../figma_images/VSCode.png)
-
 2. Open this directory in Visual Studio Code.
 3. Compile TypeScript to JavaScript: Run the "Terminal > Run Build Task..." menu item,
     then select "tsc: watch - tsconfig.json". You will have to do this again every time
     you reopen Visual Studio Code.
 
 ![Runnig Plugin in Figma](../figma_images/Plugin.png)
-
 
 That's it! Visual Studio Code will regenerate the JavaScript file every time you save.
